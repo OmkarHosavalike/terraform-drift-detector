@@ -17,17 +17,18 @@ jobs:
     steps:
       - name: checkout the code
         uses: actions/checkout@v4
-      - name: print env
-        run:  |
-          pwd
-          ls
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v5
         with:
           role-to-assume: ${{ env.OIDC_ROLE_ARN }} 
           aws-region: ${{ env.AWS_REGION }} 
-      
+
+      - name: setup terraform 
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.7.0
+
       - name: Make the script executable
         run: chmod +x scripts/terraform_detector.sh
       
