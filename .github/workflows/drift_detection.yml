@@ -11,18 +11,21 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TF_WORKING_DIR: terraform
-      AWS_REGION: ${{ vars.AWS_REGION }}
-      OIDC_ROLE_ARN: ${{ vars.OIDC_ROLE_ARN }}
+      AWS_REGION: us-east-1
+      OIDC_ROLE_ARN: arn:aws:iam::679217508170:role/drift-detection-role
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     steps:
       - name: checkout the code
         uses: actions/checkout@v4
-      
+      - name: print env
+        run:  |
+          echo ${{ env.OIDC_ROLE_ARN }} 
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v5
         with:
-          role-to-assume: ${{ env.OIDC_ROLE_ARN }} #arn:aws:iam::679217508170:role/drift-detection-role
-          aws-region: ${{ env.AWS_REGION }} #us-east-1
+          role-to-assume: ${{ env.OIDC_ROLE_ARN }} 
+          aws-region: ${{ env.AWS_REGION }} 
       
       - name: Make the script executable
         run: chmod +x scripts/terraform_detector.sh
