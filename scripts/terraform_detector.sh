@@ -14,10 +14,10 @@ terraform init -input=false -no-color
 echo "Running terraform plan..."
 set +e
 terraform plan -detailed-exitcode -input=false -no-color -out=tfplan.binary > >(tee "$OUTFILE") 2>&1
-EXIT_CODE=$?
+EXIT_CODE=${PIPESTATUS[0]}
 set -e
 
-echo "terraform plan exit code 1: $EXIT_CODE"
+echo "terraform plan exit code: $EXIT_CODE"
 
 if [[ "$EXIT_CODE" -eq 0 ]]; then
   echo "No drift detected."
