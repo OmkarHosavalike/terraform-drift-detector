@@ -1,0 +1,16 @@
+name: detect drifts in aws resources
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  drift-detect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout the code
+        uses: actions/checkout@v4
+      
+      - name: Get aws credentials

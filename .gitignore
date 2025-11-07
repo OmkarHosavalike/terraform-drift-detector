@@ -1,0 +1,17 @@
+# Terraform state files
+*.tfstate
+*.tfstate.backup
+
+# Terraform crash logs
+crash.log
+
+# .terraform directories (modules, plugin downloads)
+.terraform/
+.terraform.lock.hcl
+
+# Local environment files
+*.tfvars
+*.tfvars.json
+
+# GitHub Actions temporary files (optional)
+.github/.terraform/
