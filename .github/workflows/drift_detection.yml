@@ -1,7 +1,8 @@
 name: detect drifts in aws resources
 on:
-  schedule:
-    - cron: '*/5 * * * *'
+  workflow_dispatch:
+  #schedule:
+   # - cron: '*/15 * * * *'
 
 permissions:
   id-token: write
