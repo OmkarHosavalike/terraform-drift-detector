@@ -16,6 +16,11 @@ jobs:
     steps:
       - name: checkout the code
         uses: actions/checkout@v4
+
+      - name: get into terraform folder
+        run: |
+          cd terraform
+          ls
       
       - name: setup terraform 
         uses: hashicorp/setup-terraform@v3
