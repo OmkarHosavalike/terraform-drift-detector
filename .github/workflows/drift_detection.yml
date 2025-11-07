@@ -40,4 +40,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: terraform-plan-output
-          path: terraform-plan-output.txt
+          path: terraform/terraform-plan-output.txt
