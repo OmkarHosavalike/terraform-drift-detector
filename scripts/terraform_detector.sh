@@ -13,7 +13,7 @@ terraform init -input=false -no-color
 
 echo "Running terraform plan..."
 set +e
-terraform plan -detailed-exitcode -input=false -no-color -out=tfplan.binary >> (tee "$OUTFILE") 2>&1
+terraform plan -detailed-exitcode -input=false -no-color -out=tfplan.binary > >(tee "$OUTFILE") 2>&1
 EXIT_CODE=${PIPESTATUS[0]}
 set -e
 
