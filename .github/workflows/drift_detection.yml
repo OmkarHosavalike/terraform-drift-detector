@@ -9,8 +9,30 @@ permissions:
 jobs:
   drift-detect:
     runs-on: ubuntu-latest
+    env:
+      TF_WORKING_DIR: terraform
+      AWS_REGION: ${{ vars.AWS_REGION }}
+      OIDC_ROLE_ARN: ${{ vars.OIDC_ROLE_ARN }}
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     steps:
       - name: checkout the code
         uses: actions/checkout@v4
       
-      - name: Get aws credentials
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v5
+        with:
+          role-to-assume: ${{ env.OIDC_ROLE_ARN }} #arn:aws:iam::679217508170:role/drift-detection-role
+          aws-region: ${{ env.AWS_REGION }} #us-east-1
+      
+      - name: Make the script executable
+        run: chmod +x scripts/terraform_detector.sh
+      
+      - name: Run the drift detection script
+        run: ./scripts/terraform_detector.sh
+
+      - name: Upload plan output artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-plan-output
+          path: terraform-plan-output.txt

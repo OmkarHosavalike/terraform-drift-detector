@@ -1,4 +1,4 @@
-output "instance_id" {
+output "instance_ids" {
   value = aws_instance.ec2_instances[*].id
 }
 
