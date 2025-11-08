@@ -32,7 +32,9 @@ jobs:
           terraform_version: 1.7.0
 
       - name: Make the script executable
-        run: chmod +x scripts/terraform_detector.sh
+        run: |
+          chmod +x scripts/terraform_detector.sh
+          ls
 
       - name: Initialize terraform
         run: terraform init -input=false -backend-config="bucket=${{ secrets.BACKEND_S3_BUCKET }}"
