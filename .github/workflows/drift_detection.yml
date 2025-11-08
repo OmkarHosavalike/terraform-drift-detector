@@ -2,7 +2,7 @@ name: detect drifts in aws resources
 on:
   workflow_dispatch:
   schedule:
-    - cron: "*/15 * * * *"
+    - cron: "15 * * * *"
 
 permissions:
   id-token: write
@@ -32,9 +32,7 @@ jobs:
           terraform_version: 1.7.0
 
       - name: Make the script executable
-        run: |
-          chmod +x scripts/terraform_detector.sh
-          ls
+        run: chmod +x scripts/terraform_detector.sh
 
       - name: Initialize terraform
         run: terraform init -input=false -backend-config="bucket=${{ secrets.BACKEND_S3_BUCKET }}"

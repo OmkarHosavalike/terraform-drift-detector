@@ -5,8 +5,6 @@ WORKDIR="${TF_WORKING_DIR:-terraform}"
 OUTFILE="terraform-plan-output.txt"
 EXIT_CODE=0
 
-echo "Before plan exit code: $EXIT_CODE"
-
 cd "$WORKDIR" || { echo "Terraform working dir not found: $WORKDIR"; exit 1; }
 
 echo "Terraform version"
@@ -21,11 +19,8 @@ terraform show -no-color tfplan.binary > human-readable-plan.txt
 PLAN_LINE=$(grep "Plan:" human-readable-plan.txt)
 if [[ "$PLAN_LINE" =~ [1-9] ]]; then
   EXIT_CODE=1
-  echo "terraform plan exit code inside if: $EXIT_CODE"
 fi
 set -e
-
-echo "terraform plan exit code: $EXIT_CODE"
 
 if [[ "$EXIT_CODE" -eq 0 ]]; then
   echo "No drift detected."
