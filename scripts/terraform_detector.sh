@@ -9,7 +9,7 @@ cd "$WORKDIR" || { echo "Terraform working dir not found: $WORKDIR"; exit 1; }
 echo "Terraform version"
 terraform -v || true
 
-terraform init -input=false -no-color
+terraform init -input=false -no-color -backend-config="bucket=${bucket}"
 
 echo "Running terraform plan..."
 set +e

@@ -15,6 +15,7 @@ jobs:
       TF_WORKING_DIR: terraform
       AWS_REGION: us-east-1
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      bucket: ${{ secrets.BACKEND_S3_BUCKET }}
     steps:
       - name: checkout the code
         uses: actions/checkout@v4
@@ -32,12 +33,12 @@ jobs:
 
       - name: Make the script executable
         run: chmod +x scripts/terraform_detector.sh
-      
-      - name: Run the drift detection script
-        run: ./scripts/terraform_detector.sh
 
       - name: Initialize terraform
         run: terraform init -input=false -backend-config="bucket=${{ secrets.BACKEND_S3_BUCKET }}"
+      
+      - name: Run the drift detection script
+        run: ./scripts/terraform_detector.sh
 
       - name: Upload plan output artifact
         if: always()
