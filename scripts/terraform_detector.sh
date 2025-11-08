@@ -3,6 +3,7 @@ set -euo pipefail
 
 WORKDIR="${TF_WORKING_DIR:-terraform}"
 OUTFILE="terraform-plan-output.txt"
+EXIT_CODE=0
 
 cd "$WORKDIR" || { echo "Terraform working dir not found: $WORKDIR"; exit 1; }
 
