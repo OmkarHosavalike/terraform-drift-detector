@@ -1,8 +1,8 @@
 name: detect drifts in aws resources
 on:
   workflow_dispatch:
-  #schedule:
-   # - cron: '*/15 * * * *'
+  schedule:
+    - cron: "*/15 * * * *"
 
 permissions:
   id-token: write
@@ -14,7 +14,6 @@ jobs:
     env:
       TF_WORKING_DIR: terraform
       AWS_REGION: us-east-1
-      OIDC_ROLE_ARN: arn:aws:iam::679217508170:role/drift-detection-role
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     steps:
       - name: checkout the code
@@ -23,7 +22,7 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v5
         with:
-          role-to-assume: ${{ env.OIDC_ROLE_ARN }} 
+          role-to-assume: ${{ secrets.OIDC_IAM_ROLE }}
           aws-region: ${{ env.AWS_REGION }} 
 
       - name: setup terraform 
@@ -36,6 +35,9 @@ jobs:
       
       - name: Run the drift detection script
         run: ./scripts/terraform_detector.sh
+
+      - name: Initialize terraform
+        run: terraform init -input=false -backend-config="bucket=${{ secrets.BACKEND_S3_BUCKET }}"
 
       - name: Upload plan output artifact
         if: always()

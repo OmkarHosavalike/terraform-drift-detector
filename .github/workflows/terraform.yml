@@ -25,11 +25,11 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v5
         with:
-          role-to-assume: arn:aws:iam::679217508170:role/terraform-aws-role
+          role-to-assume: ${{ secrets.OIDC_IAM_ROLE_EC2_ADMIN }}
           aws-region: us-east-1
       
       - name: terraform init
-        run: terraform init -input=false
+        run: terraform init -input=false -backend-config="bucket=${{ secrets.BACKEND_S3_BUCKET }}"
         working-directory: terraform
 
       - name: terraform plan
