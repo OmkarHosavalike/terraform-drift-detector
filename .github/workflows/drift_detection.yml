@@ -36,6 +36,7 @@ jobs:
 
       - name: Initialize terraform
         run: terraform init -input=false -backend-config="bucket=${{ secrets.BACKEND_S3_BUCKET }}"
+        working-directory: ${{ env.TF_WORKING_DIR }}
       
       - name: Run the drift detection script
         run: ./scripts/terraform_detector.sh
